@@ -233,7 +233,7 @@ class MultiWaypointNav(object):
         self.ang_sign       = float(P("~angular_sign", -1.0))
         self.align_step_deg = float(P("~align_step_deg", 5.0))
         self.align_turn_spd = float(P("~align_turn_speed", 0.25))
-        self.dead_zone      = float(P("~dead_zone", 0.25))           # very wide — bbox within 25% of center = aligned
+        self.dead_zone      = float(P("~dead_zone", 0.45))           # very wide — bbox within 25% of center = aligned
         self.align_confirm_count = int(P("~align_confirm_count", 3))  # must hit dead zone this many times
         self.center_zone    = float(P("~center_forward_zone", 0.20)) # wider — less re-align
         self.align_timeout  = float(P("~align_timeout", 25.0))       # more time
