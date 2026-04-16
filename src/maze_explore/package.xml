@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>maze_explore</name>
+  <version>0.0.1</version>
+  <description>
+    EE3033 multi-waypoint navigation node for the Wheeltec balancing car.
+    Implements: WAIT_LOCALIZATION -> EXPLORING -> CLOSE_TARGET -> GO_HOME -> FINISHED
+    Uses move_base, AMCL, laser scan, and optionally darknet_ros YOLO detection.
+  </description>
+
+  <maintainer email="ee3033@todo.todo">ee3033</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- Core navigation and geometry -->
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>move_base_msgs</depend>
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+
+  <!-- Used by multi_waypoint_nav.py at runtime -->
+  <depend>sensor_msgs</depend>   <!-- LaserScan -->
+  <depend>tf</depend>            <!-- tf.transformations: euler_from_quaternion, quaternion_from_euler -->
+  <depend>std_srvs</depend>      <!-- Empty service for clear_costmaps -->
+
+  <!-- YOLO detection messages: optional at build time, needed at runtime if YOLO is enabled.
+       The Python script handles missing import gracefully with try/except. -->
+  <exec_depend>darknet_ros_msgs</exec_depend>
+
+</package>

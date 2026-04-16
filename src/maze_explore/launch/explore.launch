@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+  explore.launch — EE3033 multi-waypoint navigation node launcher
+  ================================================================
+  This is the CORRECT way to start multi_waypoint_nav.py on the physical robot.
+  It loads all tunable parameters from:
+      config/multi_waypoint_nav_melodic_params.yaml
+  and then starts the node.
+
+  IMPORTANT before running:
+  1. Open config/multi_waypoint_nav_melodic_params.yaml
+  2. Update the 'waypoints' list with real coordinates from YOUR map.
+  3. Update 'target_class' to match your demo target (e.g. "bottle", "cup").
+  4. In RViz, click '2D Pose Estimate' to initialise AMCL BEFORE this node starts.
+
+  Usage:
+      roslaunch maze_explore explore.launch
+  or with a custom param file:
+      roslaunch maze_explore explore.launch params_file:=/path/to/your.yaml
+-->
+<launch>
+
+  <!-- Allow overriding the param file from the command line -->
+  <arg name="params_file"
+       default="$(find maze_explore)/config/multi_waypoint_nav_melodic_params.yaml"/>
+
+  <!-- Load parameters into /multi_waypoint_nav/ namespace.
+       The YAML top-level key is "multi_waypoint_nav", which matches the
+       node name, so ~param resolves correctly to /multi_waypoint_nav/param. -->
+  <rosparam command="load" file="$(arg params_file)"/>
+
+  <!-- Start the navigation node.
+       output="screen" ensures all rospy.loginfo messages appear in the terminal.
+       The node name MUST match the top-level key in the YAML file. -->
+  <node pkg="maze_explore"
+        type="multi_waypoint_nav.py"
+        name="multi_waypoint_nav"
+        output="screen"
+        required="true"/>
+
+</launch>

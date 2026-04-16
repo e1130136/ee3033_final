@@ -1,0 +1,4 @@
+# Put these into ~/.bashrc after you edit ee3033_common.sh path
+alias eeenv='source ~/ee3033-main/launch/ee3033_common.sh'
+alias eemap=' ~/ee3033-main/launch/ee3033_mapping_mode.sh'
+alias eeexp=' ~/ee3033-main/launch/ee3033_explore_mode.sh'

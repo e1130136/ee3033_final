@@ -1,0 +1,90 @@
+前提：安装 sshpass + 编译
+# 笔记本上安装 sshpass（只需一次）
+sudo apt install sshpass
+
+# 编译工作空间（只需一次）
+cd ~/ee3033-main
+source /opt/ros/melodic/setup.bash
+catkin_make
+source devel/setup.bash
+
+# 确认脚本可执行
+chmod +x ee3033.sh
+chmod +x src/maze_explore/scripts/multi_waypoint_nav.py
+
+建图模式
+# 方式 A：一键打开所有建图终端
+./ee3033.sh all_map
+
+# 方式 B：分别开
+# 终端1:
+./ee3033.sh map
+# 终端2:
+./ee3033.sh rviz
+# 终端3:
+./ee3033.sh teleop
+
+保存地图
+./ee3033.sh save
+# 或指定名称:
+./ee3033.sh save ~/mymap
+
+导航 + 探索 + 检测 + 回家（一键）
+./ee3033.sh all_nav
+
+会自动：
+SSH 到机器人启动 navigation.launch（等 5 秒）
+SSH 到机器人启动 usb_cam（等 2 秒）
+笔记本启动 image republisher
+笔记本启动 darknet_ros
+笔记本启动 RViz
+暂停等你做 2D Pose Estimate
+你按 ENTER 后启动 explore
+
+分别启动（如果 all_nav 有问题）
+
+# 终端1: 机器人导航
+./ee3033.sh nav
+# 等 "odom received!"
+
+# 终端2: 机器人相机
+./ee3033.sh cam
+
+# 终端3: 笔记本图像解压
+./ee3033.sh repub
+
+# 终端4: 笔记本 YOLO
+./ee3033.sh yolo
+
+# 终端5: 笔记本 RViz
+./ee3033.sh rviz
+# >>> 做 2D Pose Estimate <<<
+
+# 终端6: 笔记本探索
+./ee3033.sh explore
+
+验证连接 ./ee3033.sh check
+直接 SSH ./ee3033.sh ssh
+
+log
+[INIT] move_base connected.                          ← 基础就绪
+[FSM] INIT -> WAIT_LOCALIZATION                       ← 等定位
+[FSM] WAIT_LOC  cov xx=0.15 yy=0.12 timeout_in=25s   ← 正在收敛
+[NAV] HOME LOCKED  x=0.05 y=0.02 yaw=5°               ← 起点记录 ✓
+[FSM] WAIT_LOCALIZATION -> EXPLORE                     ← 开始巡航
+[NAV] WP 1/4  x=0.80 y=0.00                           ← 发 waypoint
+[NAV] Goal reached (dist=0.20) WP1                     ← 到达
+[YOLO] bottle p=0.72 ex=+0.15 area=0.032 cnt=1         ← 首次检测
+[FSM] EXPLORE -> CANDIDATE_STOP                        ← 停车 2s
+[FSM] CANDIDATE_STOP -> MICRO_SCAN                     ← 微扫确认
+[SCAN] Step 0 — observing at yaw=12° for 2.0s          ← 转-停-观察
+[SCAN] TARGET CONFIRMED at yaw=12°  hits=2              ← 确认！
+[FSM] MICRO_SCAN -> ALIGN_TARGET                       ← 对齐 bbox
+[ALIGN] Centred (ex=0.03 < dz=0.05)                    ← 对齐完成
+[FSM] ALIGN_TARGET -> APPROACH_TARGET                  ← 靠近（走-停-走）
+[APPROACH] Front obstacle at 0.25m — stop               ← 够近了
+[TARGET] ===== TARGET FOUND =====                      ← 报告坐标
+[TARGET] Est. object : x=2.10 y=0.85
+[FSM] RECORD_TARGET -> GO_HOME                         ← 回家
+[NAV] Goal SUCCEEDED  HOME
+[FSM] ===== MISSION COMPLETE =====                     ← 结束 ✓

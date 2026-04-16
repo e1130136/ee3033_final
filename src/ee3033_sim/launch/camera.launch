@@ -1,0 +1,13 @@
+<launch>
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+
+  <param name="robot_description"
+         command="$(find xacro)/xacro $(find ee3033_sim)/camera/urdf/turtlebot3_burger.urdf.xacro" />
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf"
+        args="-urdf -param robot_description -model turtlebot3_burger_camera -x $(arg x) -y $(arg y) -z $(arg z)" />
+</launch>

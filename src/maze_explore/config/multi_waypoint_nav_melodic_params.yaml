@@ -1,0 +1,105 @@
+# multi_waypoint_nav_melodic_params.yaml
+# =========================================================
+# EE3033 Balancing Car — navigation node parameters
+# Loaded via:  roslaunch maze_explore explore.launch
+#
+# !! CRITICAL BEFORE DEMO !!
+# 1. Update `waypoints` with coordinates from YOUR map.
+# 2. Update `target_class` to match the YOLO object.
+# =========================================================
+
+multi_waypoint_nav:
+
+  # ----- Target detection -----
+  target_class: "bottle"
+  enable_yolo: true
+  loop_waypoints: true
+  return_home: true
+  report_forward_offset: 0.18
+
+  # ----- ROS interface -----
+  cmd_vel_topic: "/cmd_vel"
+  amcl_topic: "/amcl_pose"
+  scan_topic: "/scan"
+  yolo_boxes_topic: "/darknet_ros/bounding_boxes"
+  move_base_action: "move_base"
+  clear_costmaps_service: "/move_base/clear_costmaps"
+  move_base_wait_timeout: 20.0
+
+  # ----- AMCL stabilisation -----
+  localization_settle_time: 1.0
+  home_cov_xx_max: 0.25
+  home_cov_yy_max: 0.25
+  home_cov_yawyaw_max: 0.50
+  home_stable_dist: 0.15
+  home_stable_yaw_deg: 20.0
+  home_stable_time: 1.5
+  localization_wait_timeout: 30.0
+
+  # ----- YOLO detection -----
+  min_prob: 0.35
+  image_width: 640
+  image_height: 480
+  min_detection_area: 0.004
+  required_consecutive_detections: 3
+  detection_memory: 0.8
+  area_threshold: 0.18
+  max_image_age: 2.0
+
+  # ----- Candidate stop -----
+  # When first detection occurs, stop for this long to flush stale frames
+  candidate_hold_time: 2.0
+
+  # ----- Micro-scan (professor's stop-turn-observe strategy) -----
+  # Each step: turn scan_step_deg, then stop and observe for scan_observe_time.
+  # If >= scan_hit_threshold detections in the window, target confirmed.
+  scan_step_deg: 8.0             # degrees per step
+  scan_turn_speed: 0.15          # rad/s
+  scan_observe_time: 2.0         # seconds to observe at each angle
+  scan_hit_threshold: 2          # detections needed in one window to confirm
+  scan_max_steps: 16             # give up after this many steps
+  scan_bracket_deg: 60.0         # total search range (degrees)
+
+  # ----- Alignment -----
+  angular_sign: -1.0
+  k_angular: 0.45
+  max_turn_speed: 0.20
+  dead_zone: 0.05
+  center_forward_zone: 0.12
+  align_timeout: 15.0
+
+  # ----- Approach (burst-forward + pause) -----
+  approach_speed: 0.06
+  approach_burst_time: 0.8       # seconds of forward motion per burst
+  approach_pause_time: 1.5       # seconds to stop and re-check after each burst
+  approach_timeout: 30.0
+
+  # ----- Laser safety -----
+  front_stop_dist: 0.28
+  front_slow_dist: 0.45
+  front_angle_deg: 15.0
+  front_sample_count: 5
+
+  # ----- Navigation pacing -----
+  nav_goal_timeout: 60.0
+  goal_reached_dist: 0.25
+  control_rate_hz: 10.0
+  rest_time: 0.4
+  mission_timeout: 900.0
+
+  # ----- Stuck detection -----
+  stuck_check_period: 8.0
+  stuck_progress_dist: 0.12
+  stuck_auto_skip_warnings: 2
+
+  # ----- Recovery -----
+  recovery_duration: 2.0
+
+  # ----- Waypoints (MAP FRAME) -----
+  # !! REPLACE WITH YOUR MAP COORDINATES !!
+  # Use RViz Publish Point to measure (x, y).
+  waypoints:
+    - {x:  0.80, y:  0.00, yaw_deg:   0.0}
+    - {x:  1.20, y:  0.00, yaw_deg:   0.0}
+    - {x:  1.20, y: -0.50, yaw_deg: -90.0}
+    - {x:  0.80, y: -0.50, yaw_deg: 180.0}

@@ -1,0 +1,4 @@
+<launch>
+  <include file="$(find ee3033_sim)/launch/tb3_world_only.launch"/>
+  <include file="$(find ee3033_sim)/launch/spawn_tb3_camera.launch"/>
+</launch>

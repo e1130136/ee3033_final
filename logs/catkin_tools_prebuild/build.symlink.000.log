@@ -1,0 +1,12 @@
+Symlinking /home/xuanyu/ee3033-main/devel/./env.sh
+Symlinking /home/xuanyu/ee3033-main/devel/./local_setup.sh
+Symlinking /home/xuanyu/ee3033-main/devel/./_setup_util.py
+Symlinking /home/xuanyu/ee3033-main/devel/./setup.zsh
+Symlinking /home/xuanyu/ee3033-main/devel/./setup.bash
+Symlinking /home/xuanyu/ee3033-main/devel/./local_setup.bash
+Symlinking /home/xuanyu/ee3033-main/devel/./cmake.lock
+Symlinking /home/xuanyu/ee3033-main/devel/./local_setup.zsh
+Symlinking /home/xuanyu/ee3033-main/devel/./setup.sh
+Symlinking /home/xuanyu/ee3033-main/devel/lib/pkgconfig/catkin_tools_prebuild.pc
+Symlinking /home/xuanyu/ee3033-main/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/xuanyu/ee3033-main/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
